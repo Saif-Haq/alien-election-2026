@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleGenAI } from "@google/genai";
+import React, { useState, useEffect } from 'react'
+import EvilEye from '@/component/EvilEye';
 import { 
   Eye, 
   Zap, 
@@ -10,8 +10,9 @@ import {
   Globe, 
   Share2 
 } from 'lucide-react';
-
-declare const GEMINI_API_KEY: string;
+import PrismaticBurst from '@/component/PrismaticBurst';
+import SynapticShift from '@/components/ui/SynapticShift';
+import CircleGallery from '@/component/CircleGallery';
 
 const manifestoItems = [
   { title: 'Mandatory Levitation', description: 'Gravity is a choice. We choose to ignore it. Every Tuesday.' },
@@ -26,70 +27,66 @@ const testimonials = [
   { name: 'The President (Hypnotized)', quote: 'Resistance is... actually quite tiring. Zorgon is the vibe.' }
 ];
 
-const App: React.FC = () => {
-  const [heroImageUrl, setHeroImageUrl] = useState<string | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
+// Basic usage with default settings
+const images = [
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=500&auto=format&fit=crop&q=60",
+  "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=500&auto=format&fit=crop&q=60",
+];
+
+
+const App = () => {
+  const [isGenerating, setIsGenerating] = useState(true);
 
   useEffect(() => {
-    generateHeroImage();
+    setTimeout(() => {
+      setIsGenerating(false);
+    }, 3000);
   }, []);
 
-  const generateHeroImage = async () => {
-    setIsGenerating(true);
-    try {
-      const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-      const prompt = "A high-quality, cinematic digital painting of a one-eyed alien with two large, curved, crescent-shaped horns or structures rising from its shoulders. The alien has a humanoid torso but looks otherworldly. Glowing green eye. Dark, atmospheric background with cosmic dust and neon green accents. Sci-fi propaganda poster style.";
-      
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
-        contents: {
-          parts: [{ text: prompt }]
-        },
-        config: {
-          imageConfig: {
-            aspectRatio: "1:1"
-          }
-        }
-      });
 
-      for (const part of response.candidates?.[0]?.content?.parts || []) {
-        if (part.inlineData) {
-          setHeroImageUrl(`data:image/png;base64,${part.inlineData.data}`);
-          break;
-        }
-      }
-    } catch (error) {
-      console.error("Failed to generate image", error);
-      setHeroImageUrl('https://picsum.photos/seed/alien/800/800');
-    } finally {
-      setIsGenerating(false);
-    }
-  };
+
 
   return (
+
     <div className="min-h-screen bg-void-black text-white selection:bg-alien-green selection:text-black relative overflow-hidden">
       {/* Scanline effect */}
       <div className="scanline"></div>
 
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 border-b border-alien-green/20 bg-void-black/80 backdrop-blur-md px-6 py-4 flex justify-between items-center">
+
+
         <div className="flex items-center gap-2">
           <Eye className="text-alien-green w-6 h-6" />
-          <span className="font-display font-bold text-xl tracking-tighter alien-glow uppercase">ZORGON 2026</span>
+          <span className="font-display font-bold text-xl tracking-tighter alien-glow uppercase">EVIL AGENDA 2026</span>
         </div>
+
+
         <div className="hidden md:flex gap-8 text-xs font-mono uppercase tracking-widest">
           <a href="#manifesto" className="hover:text-alien-green transition-colors">Manifesto</a>
           <a href="#testimonials" className="hover:text-alien-green transition-colors">Testimonials</a>
           <a href="#join" className="hover:text-alien-green transition-colors">Join Invasion</a>
         </div>
+
+
         <button className="brutalist-border px-4 py-2 text-xs font-mono uppercase hover:bg-alien-green hover:text-black transition-all">
           VOTE NOW
         </button>
       </nav>
-
       {/* Hero Section */}
-      <header className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-        <div className="z-10">
+      <header className="relative pt-32 pb-20 grid lg:grid-cols-2 items-center">
+        {/* <SynapticShift className='absolute inset-0 w-full h-full' color='#00ff41' /> */}
+        <div className="relative z-10 gap-12 px-6 max-w-7xl mx-auto">
           <div className="inline-block border border-alien-green px-3 py-1 text-[10px] font-mono uppercase mb-6 tracking-[0.2em]">
             Status: Approaching Earth Orbit
           </div>
@@ -110,26 +107,49 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className="relative flex justify-center items-center">
-          <div className="absolute inset-0 bg-alien-green/10 blur-[120px] rounded-full"></div>
-          
-          <div className="relative w-full aspect-square max-w-[500px] brutalist-border p-2 bg-void-black animate-float">
+        <div className="relative isolate flex w-full justify-center items-center px-6">
+          <div
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[min(100vw,520px)] w-[min(100vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-alien-green/10 blur-[120px]"
+            aria-hidden
+          />
+          <div className="relative z-10 w-full aspect-square max-w-[500px] brutalist-border p-2 bg-void-black animate-float">
             {isGenerating ? (
-              <div className="w-full h-full flex flex-col items-center justify-center bg-gray-900/50 font-mono text-xs gap-4">
-                <div className="w-12 h-12 border-4 border-alien-green border-t-transparent rounded-full animate-spin"></div>
+              <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-gray-900/50 font-mono text-xs">
+                <div className="h-12 w-12 animate-spin rounded-full border-4 border-alien-green border-t-transparent" />
                 <p className="animate-pulse">TRANSMITTING IMAGE FROM MOTHERSHIP...</p>
               </div>
-            ) : heroImageUrl ? (
-              <img src={heroImageUrl} alt="Zorgon the Unfathomable" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" referrerPolicy="no-referrer" />
-            ) : null}
-            
-            <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-alien-green"></div>
-            <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-alien-green"></div>
-            <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-alien-green"></div>
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-alien-green"></div>
+            ) : (
+              <>
+                <PrismaticBurst
+                  animationType="rotate3d"
+                  intensity={2}
+                  speed={0.5}
+                  distort={0}
+                  paused={false}
+                  offset={{ x: 10, y: 190 }}
+                  hoverDampness={0.25}
+                  rayCount={0}
+                  mixBlendMode="lighten"
+                  colors={['#00ff41', '#4d3dff', '#ffffff']}
+                />
+                <img
+                  src="/Alien.png"
+                  alt="Zorgon the Unfathomable"
+                  className="absolute inset-x-2 top-12 bottom-2 z-1 object-contain p-2"
+                  referrerPolicy="no-referrer"
+                />
+              </>
+            )}
+            <div className="pointer-events-none absolute -left-1 -top-1 z-2 h-4 w-4 border-l-2 border-t-2 border-alien-green" />
+            <div className="pointer-events-none absolute -right-1 -top-1 z-2 h-4 w-4 border-r-2 border-t-2 border-alien-green" />
+            <div className="pointer-events-none absolute -bottom-1 -left-1 z-2 h-4 w-4 border-b-2 border-l-2 border-alien-green" />
+            <div className="pointer-events-none absolute -bottom-1 -right-1 z-2 h-4 w-4 border-b-2 border-r-2 border-alien-green" />
           </div>
         </div>
       </header>
+
+      <CircleGallery images={images} />
+
 
       {/* Manifesto Section */}
       <section id="manifesto" className="py-24 px-6 border-y border-white/10 bg-white/[0.02]">
@@ -195,6 +215,21 @@ const App: React.FC = () => {
         </div>
       </section>
 
+      <div className='w-screen h-64'>
+        <EvilEye
+          eyeColor="#00ff41"
+          intensity={1.5}
+          pupilSize={0.6}
+          irisWidth={0.25}
+          glowIntensity={0.35}
+          scale={1.2}
+          noiseScale={1}
+          pupilFollow={1}
+          flameSpeed={1}
+          backgroundColor="#050505"
+        />
+      </div>
+
       {/* Footer */}
       <footer className="py-12 px-6 border-t border-white/10 text-center">
         <div className="flex justify-center gap-8 mb-8">
@@ -206,8 +241,9 @@ const App: React.FC = () => {
           &copy; 2026 Zorgon Galactic Campaign Committee. All rights reserved. Resistance is futile.
         </p>
       </footer>
-    </div>
-  );
-};
 
-export default App;
+    </div >
+  )
+}
+
+export default App
