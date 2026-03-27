@@ -148,7 +148,7 @@ const App = () => {
         </div>
       </header>
 
-      <CircleGallery images={images} />
+      <CircleGallery images={images} itemScale={0.8} itemHeight={370} className="w-screen h-[120vh]" showNumbers={false} />
 
 
       {/* Manifesto Section */}
